@@ -2,10 +2,10 @@
 
 Stow Command
 ```bash
-stow -d ./home -t=~/ .
+stow -d ./home -t ~/ .
 ```
 
 unstow command
 ```
-stow -d ./home -t=~/ -D .
+stow -d ./home -t ~/ -D .
 ```
