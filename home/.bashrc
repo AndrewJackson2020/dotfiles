@@ -11,3 +11,4 @@ PS1='[\u@\h \W]\$ '
 
 sudo systemctl start iwd.service
 sudo systemctl start docker.service
+nitrogen --restore
