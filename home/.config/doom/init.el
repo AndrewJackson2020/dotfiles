@@ -192,5 +192,3 @@
        :config
        ;;literate
        (default +bindings +smartparens))
-
-(setq org-directory "~/repos/org")
