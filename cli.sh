@@ -16,7 +16,27 @@ unstow_config_files () {
 
 install_packages () {
     echo "installing packages"
-    pacman -S --noconfirm  i3-gaps xorg-server xorg-xinit 
+    
+    # Use to find best mirrors
+    pacman -S --noconfirm  \
+    	reflector \
+    	i3-gaps \
+	xorg-server \
+	xorg-xinit \
+	xorg \
+	i3 \
+	nitrogen \
+	picom \
+	terminator \
+	firefox \
+	vim \
+	emacs \
+	xf86-video-fbdev \
+	dmenu \
+	libreoffice-fresh \
+	pulseaudio \
+	stow
+
     echo "packages installed"
 }
 
