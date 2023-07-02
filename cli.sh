@@ -20,7 +20,6 @@ install_packages () {
     # Use to find best mirrors
     pacman -S --noconfirm  \
     	reflector \
-    	i3-gaps \
 	xorg-server \
 	xorg-xinit \
 	xorg \
