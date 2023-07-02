@@ -1,0 +1,7 @@
+[user]
+	email = andrewjackson947@gmail.com
+	name = CommanderKeynes
+[core]
+	editor = vim
+[credential]
+	helper = store
