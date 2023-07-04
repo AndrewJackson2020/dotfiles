@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 
+set -e
+
+
 initial_setup () {
     sfdisk /dev/sda << EOF
 label: gpt
@@ -79,7 +82,7 @@ unstow_config_files () {
 install_packages () {
     echo "installing packages"
     
-    sudo pacman -Syu --noconfirm  \
+    pacman -Syu --noconfirm  \
     	reflector \
 	xorg-server \
 	xorg-xinit \
