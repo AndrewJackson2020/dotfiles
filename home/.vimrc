@@ -36,3 +36,4 @@ autocmd FileType nerdtree setlocal relativenumber
 " Highlight all matched searches
 set hlsearch
 
+let g:markdown_fenced_languages = ['bash']

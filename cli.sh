@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 stow_config_files () {
     echo "stowing home config files"
     stow -d ./home -t ~/ . --verbose
@@ -9,6 +10,7 @@ stow_config_files () {
     echo "systemm config files stowed"
 }
 
+
 unstow_config_files () {
     echo "unstowing home config files"
     stow -d ./home -t ~/ -D . --verbose
@@ -17,6 +19,7 @@ unstow_config_files () {
     sudo stow -d ./ -t / -D . --verbose
     echo "sysemm config files unstowed"
 }
+
 
 install_packages () {
     echo "installing packages"
@@ -50,12 +53,20 @@ install_packages () {
 	bitwarden \
 	cowsay \
 	code \
-	virtualbox	
+	virtualbox \
+	sudo \
+	grub \
+	efibootmgr \
+	dosfstools \
+	os-prober \
+	mtools \
+	networkmanager
 	    
     # TODO Need to get AUR working for davinci-resolve
 	    
     echo "packages installed"
 }
+
 
 action=$1
 
