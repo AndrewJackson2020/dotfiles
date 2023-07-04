@@ -28,9 +28,9 @@ EOF
 
 
 initial_setup_2 () {
-    
+        
     cd /tmp/dotfiles    
-    sudo stow -d ./system/ -t / . --verbose
+    stow -d ./system/ -t / . --verbose
 
     /tmp/dotfiles/cli.sh install
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
