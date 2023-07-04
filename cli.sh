@@ -40,6 +40,7 @@ install_packages () {
 	stow \
 	steam \
 	gimp \
+	docker \
 	nodejs \
 	virtualbox	
 	    
