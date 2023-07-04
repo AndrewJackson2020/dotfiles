@@ -40,7 +40,8 @@ install_packages () {
 	stow \
 	steam \
 	gimp \
-	nodejs
+	nodejs \
+	virtualbox	
 	    
     # TODO Need to get AUR working for davinci-resolve
 	    
