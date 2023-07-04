@@ -3,6 +3,8 @@
 This repo stores all of my dotfiles.
 
 ## Initial Setup
+
+Initial setup
 ```bash
 sfdisk /dev/sda << EOF
 label: gpt
@@ -23,6 +25,15 @@ pacstrap /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt
+```
+
+Run after chrooting into partition
+```bash
+pacman -S git
+cd tmp
+git clone https://github.com/CommanderKeynes/dotfiles.git
+
+/tmp/dotfiles/cli.sh install
 
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
@@ -47,7 +58,10 @@ grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 
 exit
+```
 
+Teardown after exiting chroot
+```bash
 umount /mnt
 reboot
 ```
