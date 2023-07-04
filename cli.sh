@@ -21,8 +21,7 @@ unstow_config_files () {
 install_packages () {
     echo "installing packages"
     
-    # Use to find best mirrors
-    pacman -S --noconfirm  \
+    sudo pacman -Syu --noconfirm  \
     	reflector \
 	xorg-server \
 	xorg-xinit \
@@ -38,10 +37,13 @@ install_packages () {
 	dmenu \
 	libreoffice-fresh \
 	pulseaudio \
-	stow
+	stow \
+	steam \
+	gimp \
+	nodejs
 	    
-    # TODO Install qbittorrent from AUR 
-
+    # TODO Need to get AUR working for davinci-resolve
+	    
     echo "packages installed"
 }
 
