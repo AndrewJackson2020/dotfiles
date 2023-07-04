@@ -25,12 +25,11 @@ EOF
 
 
 initial_setup_2 () {
-    pacman -S git
-    cd tmp
-    git clone https://github.com/CommanderKeynes/dotfiles.git
     
     /tmp/dotfiles/cli.sh install
-    
+    cd /tmp/dotfiles    
+    sudo stow -d ./system/ -t / . --verbose
+
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
     
