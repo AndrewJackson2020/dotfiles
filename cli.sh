@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
 stow_config_files () {
-    echo "stowing config files"
+    echo "stowing home config files"
     stow -d ./home -t ~/ . --verbose
+    echo "home config files stowed"
+    echo "stowing systemm config files"
     sudo stow -d ./system/ -t / . --verbose
-    echo "config files stowed"
+    echo "systemm config files stowed"
 }
 
 unstow_config_files () {
-    echo "unstowing config files"
+    echo "unstowing home config files"
     stow -d ./home -t ~/ -D . --verbose
+    echo "home config files unstowed"
+    echo "unstowing system config files"
     sudo stow -d ./ -t / -D . --verbose
-    echo "config files unstowed"
+    echo "sysemm config files unstowed"
 }
 
 install_packages () {
@@ -35,6 +39,8 @@ install_packages () {
 	libreoffice-fresh \
 	pulseaudio \
 	stow
+	    
+    # TODO Install qbittorrent from AUR 
 
     echo "packages installed"
 }
