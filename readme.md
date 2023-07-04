@@ -16,17 +16,19 @@ mkfs.ext4 /dev/sda3
 
 mount /dev/sda3 /mnt
 pacstrap /mnt base linux linux-firmware
-genfstab -U /mnt >> /mnt/etc
-
-fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt
-ln -sf /usr/shaare/zoneinfo/America/Chicago /etc/localtime
+ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 pacman -S vim
+
+# TODO: store local.gen in dotfiles
 vim /etc/locale.gen
 locale-gen
+# TODO: store /etc/hostname in dotfiles
 vim /etc/hostname
+# TODO: store /etc/hosts in dotfiles
 vim /etc/hosts
 
 passwd

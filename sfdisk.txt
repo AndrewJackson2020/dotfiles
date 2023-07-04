@@ -1,5 +1,4 @@
 label: gpt
-device: /dev/nvme0n1
 unit: sectors
 
 1: size=1126400, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B 
