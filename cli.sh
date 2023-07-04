@@ -42,6 +42,14 @@ install_packages () {
 	gimp \
 	docker \
 	nodejs \
+	terraform \
+	fortune-mod \
+	r \
+	rust \
+	qbittorrent \
+	bitwarden \
+	cowsay \
+	code \
 	virtualbox	
 	    
     # TODO Need to get AUR working for davinci-resolve
