@@ -20,40 +20,53 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
-    pacstrap /mnt ./system_installs.txt
-
+    pacstrap /mnt \
+	base \
+	linux \
+	linux-firmware \
+	networkmanager \
+	grub \
+	sudo \
+	nano \
+	vim \
+	efibootmgr \
+	dosfstools \
+	os-prober \
+	mtools \
+	git \
+	stow
     genfstab -U /mnt >> /mnt/etc/fstab
     
     arch-chroot /mnt << EOF
 
-    cd /root/repos/dotfiles    
-    
-    stow -d ./system/ -t / . --adopt --verbose
-    git reset --hard
-
-    /root/repos/dotfiles/cli.sh install
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
     
-    locale-gen
-    
-    passwd andrew
     useradd -m fei
     useradd -m andrew
-    passwd andrew
-    passwd fei 
-    usermod -ag wheel,audio,video,optical,storage andrew
-    usermod -ag wheel,audio,video,optical,storage fei 
-    
-    EDITOR=vim visudo
+
+    echo "andrew:andrew" | chpasswd
+    echo "fei:fei" | chpasswd
+
+    usermod -aG wheel,audio,video,optical,storage andrew
+    usermod -aG wheel,audio,video,optical,storage fei 
     
     mkdir /boot/EFI
     mount /dev/sda1 /boot/EFI
-    grub-install --target=x86_64-efi --bootload-id=grub_uefi --recheck
+    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
     grub-mkconfig -o /boot/grub/grub.cfg
     
     systemctl enable NetworkManager
     
+    mkdir /root/repos
+    cd /root/repos
+    git clone https://github.com/CommanderKeynes/dotfiles.git
+    cd /root/repos/dotfiles    
+    stow -d ./system/ -t / . --adopt --verbose
+    git reset --hard
+    stow -d ./system/ -t / . --verbose
+
+    locale-gen
 EOF
     umount /mnt
     reboot
