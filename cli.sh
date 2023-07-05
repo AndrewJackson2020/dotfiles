@@ -20,19 +20,18 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
-    pacstrap /mnt base linux linux-firmware
+    pacstrap /mnt ./system_installs.txt
+
     genfstab -U /mnt >> /mnt/etc/fstab
     
-    arch-chroot /mnt
-}
+    arch-chroot /mnt << EOF
 
+    cd /root/repos/dotfiles    
+    
+    stow -d ./system/ -t / . --adopt --verbose
+    git reset --hard
 
-initial_setup_2 () {
-        
-    cd /tmp/dotfiles    
-    stow -d ./system/ -t / . --verbose
-
-    /tmp/dotfiles/cli.sh install
+    /root/repos/dotfiles/cli.sh install
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
     
@@ -55,9 +54,11 @@ initial_setup_2 () {
     
     systemctl enable NetworkManager
     
-    exit
-
+EOF
+    umount /mnt
+    reboot
 }
+
 
 stow_config_files () {
     echo "stowing home config files"
@@ -82,43 +83,7 @@ unstow_config_files () {
 install_packages () {
     echo "installing packages"
     
-    pacman -Syu --noconfirm  \
-    	reflector \
-	xorg-server \
-	xorg-xinit \
-	xorg \
-	i3 \
-	nitrogen \
-	picom \
-	terminator \
-	firefox \
-	vim \
-	emacs \
-	xf86-video-fbdev \
-	dmenu \
-	libreoffice-fresh \
-	pulseaudio \
-	stow \
-	steam \
-	gimp \
-	docker \
-	nodejs \
-	terraform \
-	fortune-mod \
-	r \
-	rust \
-	qbittorrent \
-	bitwarden \
-	cowsay \
-	code \
-	virtualbox \
-	sudo \
-	grub \
-	efibootmgr \
-	dosfstools \
-	os-prober \
-	mtools \
-	networkmanager
+    pacman -Syu --noconfirm ./system_installs.txt
 	    
     # TODO Need to get AUR working for davinci-resolve
 	    
