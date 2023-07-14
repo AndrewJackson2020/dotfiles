@@ -4,12 +4,12 @@
 """
 Module contains all configuraation required to install Arch in 
 automated fashion.
-
-TODO: Might want to turn into some form of CLI
 """
 
 
 from pathlib import Path
+import subprocess 
+import sys
 
 
 from archinstall import Installer
@@ -23,10 +23,9 @@ def archinstall() -> None:
 
     """
     Main function that installs Arch.
-
-    TODO: Display list of devices to user
     """
 
+    subprocess.call(['fdisk', '-l'])
     device_path = input("Please enter device path") 
 
     # we're creating a new ext4 filesystem installation
@@ -108,7 +107,6 @@ def archinstall() -> None:
     ) as installation:
         installation.mount_ordered_layout()
         installation.minimal_installation(hostname='minimal-arch')
-        installation.add_additional_packages(['nano', 'wget', 'git'])
 
     # Optionally, install a profile of choice.
     # In this case, we install a minimal profile that is empty
@@ -118,4 +116,12 @@ def archinstall() -> None:
     user = models.User('archinstall', 'password', True)
     installation.create_users(user)
 
-archinstall()
+
+def run_cli() -> None:
+    argument = sys.argv[1]
+    if command == 'install_arch':
+        archinstall()
+
+
+run_cli()
+
