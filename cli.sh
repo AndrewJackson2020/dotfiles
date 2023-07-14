@@ -105,6 +105,10 @@ install_packages () {
 
 
 action=$1
+if [ "$action" = "build_iso" ]
+then 
+    mkarchiso -v -w /tmp/archiso-tmp/ ./archlivve/
+fi
 
 if [ "$action" = "stow" ]
 then
