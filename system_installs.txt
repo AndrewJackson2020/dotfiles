@@ -46,3 +46,5 @@ texlive-latexextra
 texlive-recommendeudo
 
 thunar
+
+archiso
