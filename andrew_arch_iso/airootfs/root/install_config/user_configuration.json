@@ -1,0 +1,35 @@
+{
+    "additional-repositories": [
+        "multilib"
+    ],
+    "profile": "minimal",
+    "keyboard-layout": "us",
+    "audio": "pulseaudio",
+    "bootloader": "grub-install",
+    "config_version": "2.5.6",
+    "debug": false,
+    "harddrives": [
+        "/dev/sda"
+    ],
+    "hostname": "andrew_archlinux",
+    "nic": {
+        "dhcp": true,
+        "dns": null,
+        "gateway": null,
+        "iface": null,
+        "ip": null,
+        "type": "nm"
+    },
+    "no_pkg_lookups": false,
+    "offline": false,
+    "packages": [
+        "firefox",
+        "vim"
+    ],
+    "script": "guided",
+    "silent": false,
+    "sys-encoding": "utf-8",
+    "sys-language": "en_US",
+    "timezone": "America/Chicago",
+    "version": "2.5.6"
+}

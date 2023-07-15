@@ -165,5 +165,6 @@ texlive-latexextra
 texlive-latexrecommended
 
 thunar
-
+archinstall
 archiso
+parted

@@ -14,6 +14,7 @@ fi
 if [ "$action" = "ssh_to_vm" ]
 then
     rm /home/andrew/.ssh/known_hosts
+    scp -r -P 2222 ./install_config root@127.0.0.1:/root/
     ssh -p 2222 root@127.0.0.1
 fi
 
