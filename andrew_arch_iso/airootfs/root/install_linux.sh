@@ -1,4 +1,5 @@
 
+set -e
 
 initial_setup () {
     sfdisk /dev/sda << EOF
