@@ -11,6 +11,8 @@ unit: sectors
 2: size=4194304, type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F
 3: type=0FC63DAF-8483-4772-8E79-3D69D8477DE4 
 EOF
+
+    # TODO: Prompt for disk to use
     
     mkfs.fat -F32 /dev/sda1
     mkswap /dev/sda2
@@ -19,38 +21,27 @@ EOF
     
     mount /dev/sda3 /mnt
     pacman --noconfirm -Sy archlinux-keyring
-    pacstrap /mnt \
-	base \
-	linux \
-	linux-firmware \
-	networkmanager \
-	grub \
-	sudo \
-	nano \
-	vim \
-	efibootmgr \
-	dosfstools \
-	os-prober \
-	mtools \
-	git \
-	stow
+    # TODO: Pacakge all pacakges into dependencies of custom package
+    pacstrap /mnt ./package_list
     genfstab -U /mnt >> /mnt/etc/fstab
     
     arch-chroot /mnt << EOF
 
+    set -e
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
 
     mkdir /etc/skel/repos/
     cd /etc/skel/repos
     git clone https://github.com/CommanderKeynes/dotfiles.git
-    cd /root/repos/dotfiles    
+    cd /etc/skel/repos/dotfiles    
     stow -d ./home/ -t / . --adopt --verbose
     git reset --hard
     stow -d ./home/ -t / . --verbose
 
     echo "root:root" | chpasswd
     for new_user in fei andrew bun silas
+    do
         useradd -m $new_user
     	echo "$new_user:$new_user" | chpasswd
     	usermod -aG wheel,audio,video,optical,storage $new_user 
@@ -77,4 +68,3 @@ EOF
     reboot
 }
 
-initial_setup

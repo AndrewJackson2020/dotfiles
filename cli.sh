@@ -7,13 +7,26 @@ source ./cli_source.sh
 
 if [ "$1" = "--help" ]
 then
-    echo "Help for cli"
+    cat << EOF
+Available Commands:
+    vm
+    build_iso
+    stow
+    unstow	
+    install
+EOF
 
 elif [ "$1" = "vm" ]
 then 
 	if [ "$2" = "--help" ]
 	then
-	    echo "Help for VM CLI"
+	    cat << EOF
+Available Commands:
+    create
+    ssh
+    detach_boot
+    destroy		
+EOF
 	elif [ "$2" = "create" ]
 	then 
 	    setup_vm
