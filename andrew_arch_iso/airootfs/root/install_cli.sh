@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -e
+
 source ./install_cli_source.sh
 
 if [ "$1" = "install" ]
@@ -9,5 +12,6 @@ elif [ "$1" = "--help" ]
 Available Commands:
     install
 EOF
-
+else
+    echo "Command $1 not Available"
 fi

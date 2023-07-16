@@ -36,7 +36,15 @@ EOF
 	    rm --force /home/andrew/.ssh/known_hosts
 	    scp  \
 		-P 2222 \
-		./andrew_arch_iso/airootfs/root/install_linux.sh \
+		./andrew_arch_iso/airootfs/root/install_cli.sh \
+		root@127.0.0.1:/root/
+	    scp  \
+		-P 2222 \
+		./andrew_arch_iso/airootfs/root/install_cli_source.sh \
+		root@127.0.0.1:/root/
+	    scp  \
+		-P 2222 \
+		./andrew_arch_iso/airootfs/root/package_list \
 		root@127.0.0.1:/root/
 	    scp -r \
 		-P 2222 \

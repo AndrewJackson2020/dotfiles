@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-
-set -e
-
 initial_setup () {
     sfdisk /dev/sda << EOF
 label: gpt
