@@ -9,9 +9,10 @@ if [ "$1" = "--help" ]
 then
     echo "Help for cli"
 
-elif [ "$2" = "vm" ]
+elif [ "$1" = "vm" ]
 then 
 	if [ "$2" = "--help" ]
+	then
 	    echo "Help for VM CLI"
 	elif [ "$2" = "create" ]
 	then 
