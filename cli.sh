@@ -7,8 +7,9 @@ source ./cli_source.sh
 
 if [ "$1" = "--help" ]
 then
+    echo "Help for cli"
 
-elif [ "$1" = "vm" ]
+elif [ "$2" = "vm" ]
 then 
 	if [ "$2" = "--help" ]
 	    echo "Help for VM CLI"
