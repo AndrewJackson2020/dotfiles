@@ -18,7 +18,7 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
-    pacman -Sy archlinux-keyring
+    pacman --noconfirm -Sy archlinux-keyring
     pacstrap /mnt \
 	base \
 	linux \
@@ -49,6 +49,7 @@ EOF
     git reset --hard
     stow -d ./home/ -t / . --verbose
 
+    echo "root:root" | chpasswd
     for new_user in fei andrew bun silas
         useradd -m $new_user
     	echo "$new_user:$new_user" | chpasswd
