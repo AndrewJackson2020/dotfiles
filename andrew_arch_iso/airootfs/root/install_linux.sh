@@ -18,6 +18,7 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
+    pacman -Sy archlinux-keyring
     pacstrap /mnt \
 	base \
 	linux \
@@ -40,24 +41,20 @@ EOF
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
 
-    # TODO: populate /etc/skel/ before adding users
-    # TODO: Turn into loop 
+    mkdir /etc/skel/repos/
+    cd /etc/skel/repos
+    git clone https://github.com/CommanderKeynes/dotfiles.git
+    cd /root/repos/dotfiles    
+    stow -d ./home/ -t / . --adopt --verbose
+    git reset --hard
+    stow -d ./home/ -t / . --verbose
 
-    useradd -m fei
-    useradd -m andrew
-    useradd -m bun 
-    useradd -m silas 
+    for new_user in fei andrew bun silas
+        useradd -m $new_user
+    	echo "$new_user:$new_user" | chpasswd
+    	usermod -aG wheel,audio,video,optical,storage $new_user 
+    done
 
-    echo "andrew:andrew" | chpasswd
-    echo "fei:fei" | chpasswd
-    echo "bun:bun" | chpasswd
-    echo "silas:silas" | chpasswd
-
-    usermod -aG wheel,audio,video,optical,storage andrew
-    usermod -aG wheel,audio,video,optical,storage fei 
-    usermod -aG wheel,audio,video,optical,storage bun 
-    usermod -aG wheel,audio,video,optical,storage silas 
-    
     mkdir /boot/EFI
     mount /dev/sda1 /boot/EFI
     grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
