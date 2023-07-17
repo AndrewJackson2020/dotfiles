@@ -37,3 +37,8 @@ autocmd FileType nerdtree setlocal relativenumber
 set hlsearch
 
 let g:markdown_fenced_languages = ['bash']
+
+filetype plugin indent on
+set tabstop=4
+set shiftwidth=4
+
