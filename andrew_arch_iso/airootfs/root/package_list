@@ -47,7 +47,9 @@ texlive-binextra
 texlive-latexextra
 texlive-latexrecommended
 
-thunar
+# Graphical file browser
+thunar 
+
 archinstall
 archiso
 parted
