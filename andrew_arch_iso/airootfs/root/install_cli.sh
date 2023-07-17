@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+
 set -e
 
 
@@ -12,6 +14,7 @@ Available Commands:
     install
 EOF
 }
+
 
 cli (){
 	case $1 in
