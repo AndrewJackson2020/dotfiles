@@ -183,10 +183,15 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-exec nitrogen --restore
+# Restore background, scale to resulution
+exec nitrogen --restore --set-scaled
+
+# Start compositor, allows transparant terminals
 exec --no-startup-id picom
+
+# Increase size of scren
+exec xrandr --output eDP-1 --scale 0.8x0.8
+
 bar {
         status_command i3status
 }
