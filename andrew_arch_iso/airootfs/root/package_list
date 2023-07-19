@@ -54,3 +54,5 @@ archinstall
 archiso
 parted
 pavucontrol
+ruby
+neovim
