@@ -8,11 +8,11 @@ source ./cli_source.sh
 vm_help () {
 
 	cat << EOF
-		Available Commands:
-			create
-			ssh
-			detach_boot
-			destroy		
+Available Commands:
+	create
+	ssh
+	detach_boot
+	destroy		
 EOF
 }
 
@@ -25,7 +25,7 @@ vm_commands () {
 			;;
 		"create")
 			setup_vm
-		
+			;;	
 		"ssh")
 			rm --force /home/andrew/.ssh/known_hosts
 			scp  \
@@ -35,7 +35,7 @@ vm_commands () {
 			scp  \
 				-P 2222 \
 				./andrew_arch_iso/airootfs/root/install_cli_source.sh \
-				root@127.0.0.1:/root/
+				root@127.0.0.1:/root
 			scp  \
 				-P 2222 \
 				./andrew_arch_iso/airootfs/root/package_list \
@@ -44,7 +44,7 @@ vm_commands () {
 				-P 2222 \
 				./andrew_arch_iso/airootfs/root/archinstall_installer \
 				root@127.0.0.1:/root/archinstall_installer
-				ssh -p 2222 root@127.0.0.1
+			ssh -p 2222 root@127.0.0.1
 			;;
 
 		"detach_boot")
@@ -55,20 +55,22 @@ vm_commands () {
 			VBoxManage shutdown archvm
 			VBoxManage unregistervm archvm --delete
 			;;
-		"*")
-			echo "Command $2 not recognized."
+		*)
+			echo "Command '$2' not recognized."
+			vm_help
+			;;
 		esac
 }
 
 
 main_help () {
 	cat << EOF
-		Available Commands:
-			vm
-			build_iso
-			stow
-			unstow	
-			install
+Available Commands:
+	vm
+	build_iso
+	stow
+	unstow	
+	install
 EOF
 
 }
@@ -97,7 +99,8 @@ main_commands () {
 			install_packages
 			;;
 		*)
-			echo "Command $1 not recognized"
+			echo "Command '$1' not recognized"
+			main_help
 			;;
 	esac	
 }

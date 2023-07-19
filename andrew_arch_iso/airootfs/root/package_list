@@ -55,4 +55,5 @@ archiso
 parted
 pavucontrol
 ruby
+sshpass
 neovim

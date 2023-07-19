@@ -20,11 +20,15 @@ cli (){
 	case $1 in
 		"install")
 			initial_setup
+			;;
 		"-h" | "--help")
 			help
-		"*")
-			echo "Command $1 not Available"
+			;;
+		*)
+			echo "Command '$1' not Available"
 			help
+			;;
+		esac
 }
 
 cli $@

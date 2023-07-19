@@ -16,16 +16,28 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
-    pacman --noconfirm -Sy archlinux-keyring
-    # TODO: Pacakge all pacakges into dependencies of custom package
-    pacstrap /mnt ./package_list
+
+
+    # TODO: Package all packages into dependencies of custom package
+    pacstrap /mnt base linux linux-firmware
     genfstab -U /mnt >> /mnt/etc/fstab
     
     arch-chroot /mnt << EOF
 
     set -e
+
     ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
     hwclock --systohc
+
+	reflector \
+		--verbose \
+		--country 'United states' \
+		-l 5 \
+		--sort rate \
+		--save /etc/pacman.d/mirrorlist
+
+	pacman --noconfirm -Syu
+    pacman --noconfirm -Sy archlinux-keyring
 
     mkdir /etc/skel/repos/
     cd /etc/skel/repos
