@@ -18,6 +18,10 @@ call plug#begin()
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
+" Need to set this in order for spellcheck to work
+" Needs to be above 'colorscheme gruvbox' for some reason
+let g:gruvbox_guisp_fallback = "bg" 
+
 " Configure grubbox theme
 colorscheme gruvbox
 set background=dark
@@ -42,3 +46,4 @@ filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 
+set spell spelllang=en_us
