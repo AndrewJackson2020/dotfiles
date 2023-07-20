@@ -21,6 +21,10 @@ cli (){
 		"install")
 			initial_setup
 			;;
+		"undo")
+			umount -l /dev/sda3
+			swapoff /dev/sda2
+			;;
 		"-h" | "--help")
 			help
 			;;

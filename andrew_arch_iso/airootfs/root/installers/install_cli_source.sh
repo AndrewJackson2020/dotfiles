@@ -16,62 +16,25 @@ EOF
     mkfs.ext4 /dev/sda3
     
     mount /dev/sda3 /mnt
-
-
-    # TODO: Package all packages into dependencies of custom package
-    pacstrap /mnt base linux linux-firmware
-    genfstab -U /mnt >> /mnt/etc/fstab
-    
-    arch-chroot /mnt << EOF
-
-    set -e
-
-    ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
-    hwclock --systohc
-
 	reflector \
 		--verbose \
-		--country 'United states' \
+		--country 'United States' \
 		-l 5 \
 		--sort rate \
 		--save /etc/pacman.d/mirrorlist
 
-	pacman --noconfirm -Syu
+	pacman-key --init
+	pacman-key --populate archlinux
+
     pacman --noconfirm -Sy archlinux-keyring
-
-    mkdir /etc/skel/repos/
-    cd /etc/skel/repos
-    git clone https://github.com/CommanderKeynes/dotfiles.git
-    cd /etc/skel/repos/dotfiles    
-    stow -d ./home/ -t / . --adopt --verbose
-    git reset --hard
-    stow -d ./home/ -t / . --verbose
-
-    echo "root:root" | chpasswd
-    for new_user in fei andrew bun silas
-    do
-        useradd -m $new_user
-    	echo "$new_user:$new_user" | chpasswd
-    	usermod -aG wheel,audio,video,optical,storage $new_user 
-    done
-
-    mkdir /boot/EFI
-    mount /dev/sda1 /boot/EFI
-    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
-    grub-mkconfig -o /boot/grub/grub.cfg
-    
-    systemctl enable NetworkManager
-    
-    mkdir /root/repos
-    cd /root/repos
-    git clone https://github.com/CommanderKeynes/dotfiles.git
-    cd /root/repos/dotfiles    
-    stow -d ./system/ -t / . --adopt --verbose
-    git reset --hard
-    stow -d ./system/ -t / . --verbose
-
-    locale-gen
-EOF
+	#
+    # TODO: Package all packages into dependencies of custom package
+    pacstrap /mnt base linux linux-firmware reflector git stow networkmanager grub efibootmgr 
+    genfstab -U /mnt >> /mnt/etc/fstab
+   	cp /root/installers/package_list /mnt/root/package_list
+	cp /root/installers/chroot_install_script.sh /mnt/root/chroot_install_script.sh
+    arch-chroot /mnt "/root/chroot_install_script.sh" 
+	
     umount /mnt
     reboot
 }
