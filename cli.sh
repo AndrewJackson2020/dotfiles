@@ -59,6 +59,7 @@ Available Commands:
 	stow
 	unstow	
 	install
+	build_package
 EOF
 
 }
@@ -75,6 +76,15 @@ main_commands () {
 		
 		"build_iso")
 			mkarchiso -v -w /tmp/archiso-tmp/ ./archlivve/
+			;;
+
+		"build_package")
+			(cd ajos_package && makepkg)
+
+			mkdir -p ~/aj-os-arch-repo/
+
+			(cd ajos_package && mv *.pkg.tar.zst ~/aj-os-arch-repo/)
+			(cd ~/aj-os-arch-repo && repo-add aj-os.db.tar.gz  *.pkg.tar.zst)
 			;;
 
 		"stow")

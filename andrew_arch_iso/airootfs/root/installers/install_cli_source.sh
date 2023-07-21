@@ -29,13 +29,13 @@ EOF
     pacman --noconfirm -Sy archlinux-keyring
 	#
     # TODO: Package all packages into dependencies of custom package
-    pacstrap /mnt base linux linux-firmware reflector git stow networkmanager grub efibootmgr 
+    pacstrap /mnt base linux linux-firmware reflector
     genfstab -U /mnt >> /mnt/etc/fstab
    	cp /root/installers/package_list /mnt/root/package_list
 	cp /root/installers/chroot_install_script.sh /mnt/root/chroot_install_script.sh
     arch-chroot /mnt "/root/chroot_install_script.sh" 
 	
-    umount /mnt
+    umount -l /mnt
     reboot
 }
 

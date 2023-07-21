@@ -1,0 +1,103 @@
+
+# Maintainer: Andrew Jackson <AndrewJackson2988@gmail.com>
+pkgbase=aj-os
+pkgname=(aj-os-desktop aj-os-g14)
+pkgver=$(date '+%Y%m%d%H%M%S')
+pkgrel=1
+epoch=
+pkgdesc=""
+arch=(any)
+url=""
+license=('GPL')
+groups=()
+
+# OS packages
+makedepends=()
+checkdepends=()
+optdepends=()
+provides=()
+conflicts=()
+replaces=()
+backup=()
+options=()
+install=
+changelog=
+noextract=()
+md5sums=()
+validpgpkeys=()
+
+
+package_aj-os-desktop() {
+	
+	# Base OS packages
+	depends=(
+		base linux linux-firmware networkmanager grub efibootmgr
+		sudo os-prober parted
+		pulseaudio
+		reflector
+		archinstall
+		archiso
+		mtools
+		dosfstools
+		xf86-video-fbdev
+	)	
+
+	# Desktop
+	depends+=(
+		xorg-server
+		xorg-xinit
+		i3-wm
+		i3blocks
+		i3lock
+		i3status
+		nitrogen
+		dmenu
+	)	
+
+	# Development Tools
+	depends+=(
+		vim emacs neovim code git nano docker virtualbox
+	)
+
+	# Programming Languages
+	depends+=(
+		r rust nodejs terraform ruby
+	)
+	
+	# GUI Apps
+	depends+=(
+		steam
+		gimp
+		pavucontrol
+		firefox
+		thunar
+		bitwarden
+		qbittorrent
+		libreoffice-fresh
+	)
+
+	# Terminal Apps
+	depends+=(
+		ranger
+		terminator
+		picom
+		fortune-mod
+		cowsay
+		stow
+		bc
+		tree
+	)
+	
+    # Latex stuff	
+	depends+=(
+		texlive-basic
+		texlive-binextra
+		texlive-latexextra
+		texlive-latexrecommended
+	)
+}
+
+package_aj-os-g14() {
+	depends=(aj-os-desktop asusctl supergfxctl rog-control-center)
+}
+

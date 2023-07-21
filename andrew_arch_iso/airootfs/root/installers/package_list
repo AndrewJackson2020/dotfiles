@@ -8,8 +8,10 @@ git
 reflector
 xorg-server
 xorg-xinit
-xorg
-i3
+i3-wm
+i3blocks
+i3lock
+i3status
 nitrogen
 picom
 terminator
@@ -47,8 +49,7 @@ texlive-binextra
 texlive-latexextra
 texlive-latexrecommended
 
-# Graphical file browser
-thunar 
+thunar
 
 archinstall
 archiso

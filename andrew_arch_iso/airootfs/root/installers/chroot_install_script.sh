@@ -14,6 +14,7 @@ pacman-key --populate archlinux
 pacman --noconfirm -Syu
 pacman --noconfirm -Sy archlinux-keyring
 
+pacman --noconfirm -S git stow networkmanager grub efibootmgr 
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 
@@ -48,6 +49,6 @@ stow -d ./system/ -t / . --adopt --verbose
 git reset --hard
 stow -d ./system/ -t / . --verbose
 
-pacman --noconfirm - < /root/package_list	
+pacman --noconfirm -Syu - < /root/package_list	
 
 locale-gen
