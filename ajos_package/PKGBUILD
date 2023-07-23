@@ -40,6 +40,7 @@ package_aj-os-desktop() {
 		mtools
 		dosfstools
 		xf86-video-fbdev
+		iwd
 	)	
 
 	# Desktop

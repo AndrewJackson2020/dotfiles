@@ -85,6 +85,11 @@ main_commands () {
 
 			(cd ajos_package && mv *.pkg.tar.zst ~/aj-os-arch-repo/)
 			(cd ~/aj-os-arch-repo && repo-add aj-os.db.tar.gz  *.pkg.tar.zst)
+
+			gsutil rsync \
+				~/aj-os-arch-repo \
+				gs://arch_repo_afdamda
+
 			;;
 
 		"stow")

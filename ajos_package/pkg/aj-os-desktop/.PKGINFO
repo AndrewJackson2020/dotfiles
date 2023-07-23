@@ -2,10 +2,10 @@
 # using fakeroot version 1.32.1
 pkgname = aj-os-desktop
 pkgbase = aj-os
-pkgver = 20230721134108-1
+pkgver = 20230723134758-1
 pkgdesc = 
 url = 
-builddate = 1689964867
+builddate = 1690138077
 packager = Unknown Packager
 size = 0
 arch = any
@@ -26,6 +26,7 @@ depend = archiso
 depend = mtools
 depend = dosfstools
 depend = xf86-video-fbdev
+depend = iwd
 depend = xorg-server
 depend = xorg-xinit
 depend = i3-wm
