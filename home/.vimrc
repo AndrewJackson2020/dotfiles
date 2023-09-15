@@ -40,7 +40,7 @@ autocmd FileType nerdtree setlocal relativenumber
 " Highlight all matched searches
 set hlsearch
 
-let g:markdown_fenced_languages = ['bash']
+let g:markdown_fenced_languages = ['bash', 'yaml']
 
 filetype plugin indent on
 set tabstop=4
