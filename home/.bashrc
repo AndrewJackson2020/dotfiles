@@ -23,6 +23,7 @@ if [ -f '/home/andrew/google-cloud-sdk/completion.bash.inc' ]; then . '/home/and
 main_help () {
 	cat << EOF
 Available Commands:
+	download_encrypted_cloud_files
 EOF
 }
 
