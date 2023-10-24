@@ -1,7 +1,5 @@
+#!/bin/bash
 #
-# ~/.bashrc
-#
-
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -20,31 +18,7 @@ if [ -f '/home/andrew/google-cloud-sdk/path.bash.inc' ]; then . '/home/andrew/go
 if [ -f '/home/andrew/google-cloud-sdk/completion.bash.inc' ]; then . '/home/andrew/google-cloud-sdk/completion.bash.inc'; fi
 
 
-main_help () {
-	cat << EOF
-Available Commands:
-	download_encrypted_cloud_files
-EOF
+cli() {
+	~/cli.sh "$@"
 }
 
-
-
-cli () {
-	case $1 in
-		"--help" | "-h")
-			main_help
-			;;
-        "download_encrypted_cloud_files" )
-            rm -f ~/cloud_documents/staging/*
-            rm -f ~/cloud_documents/unzipped/*
-            gsutil cp gs://documents_asdfoaucds/Documents.7z ~/cloud_documents/staging/
-            cd ~/cloud_documents
-            7z x  -ounzipped/ ~/cloud_documents/staging/Documents.7z
-            cd -
-            ;;
-		*)
-			echo "Command '$1' not recognized"
-			main_help
-			;;
-	esac
-}
