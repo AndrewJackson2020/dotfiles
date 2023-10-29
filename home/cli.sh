@@ -5,13 +5,33 @@ main_help () {
 Available Commands:
 	download_encrypted_cloud_files | d
 		Download encrypted .7z file from google cloud unencrypt and unzip files to local storage
+	upload_encrypted_cloud_files 
+	install_yay 
+	start_and_enable_services 
 EOF
 }
 
 
+help_download_encrypted_cloud_files (){
+	cat << EOF
+download_encrypted_cloud_files 
+EOF
+}
+
+
+# TODO Separate video, audio, and documents into separate zip files
 download_encrypted_cloud_files () {
 
 	set -e
+
+	case $1 in
+		"--help" | "-h")
+			help_download_encrypted_cloud_files 		
+			;;
+		"--document_type" | "-d")
+			document_type=$2	
+			;;
+	esac
 
 	mkdir -p ~/cloud_documents/staging/
 	mkdir -p ~/cloud_documents/unzipped/
@@ -19,10 +39,47 @@ download_encrypted_cloud_files () {
 	rm -f ~/cloud_documents/staging/*
 	rm -f ~/cloud_documents/unzipped/*
 
-	gsutil cp gs://documents_asdfoaucds/Documents.7z ~/cloud_documents/staging/
+	gsutil cp \
+		"gs://documents_asdfoaucds/${document_type}.7z" \
+		"~/cloud_documents/staging/"
 	cd ~/cloud_documents
-	7z x  -ounzipped/ ~/cloud_documents/staging/Documents.7z
+	7z x  -ounzipped/ "~/cloud_documents/staging/${document_type}.7z"
 	cd -
+}
+
+
+help_upload_encrypted_cloud_files () {
+	cat << EOF
+upload_encrypted_cloud_files 
+EOF
+}
+
+
+# TODO Separate video, audio, and documents into separate zip files
+upload_encrypted_cloud_files () {
+
+	set -e
+
+	case $1 in
+		"--help" | "-h")
+			help_download_encrypted_cloud_files 		
+			;;
+		"--document_type" | "-d")
+			document_type=$2	
+			;;
+	esac
+
+	echo "Please Enter Password"
+	read password
+	rm -f ~/cloud_documents/staging/*
+
+	cd ~/cloud_documents
+	7z a "-p${password}" -mhe=on "staging/${document_type}.7z" unzipped/*
+	cd -
+
+	gsutil cp \
+		"~/cloud_documents/staging/${document_type}.7z" \
+		"gs://documents_asdfoaucds/${document_type}.7z"
 }
 
 
@@ -42,11 +99,6 @@ start_and_enable_services () {
 }
 
 
-upload_encrypted_cloud_files () {
-	# TODO Implement function
-}
-
-
 cli () {
 	case $1 in
 		"--help" | "-h")
@@ -62,10 +114,11 @@ cli () {
 			install_yay 
 			;;
 		"u" | "upload_encrypted_cloud_files")
-			upload_encrypted_cloud_files 
+			upload_encrypted_cloud_files "${@:2}"
+
 			;;
         "d" | "download_encrypted_cloud_files")
-			download_encrypted_cloud_files 
+			download_encrypted_cloud_files "${@:2}"
 			;;
 		*)
 			echo "Command '$1' not recognized"
