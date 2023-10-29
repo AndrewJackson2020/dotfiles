@@ -30,6 +30,19 @@ cli () {
 		"--help" | "-h")
 			main_help
 			;;
+        "install_aur_packages" | "i")
+            sudo yay -S nordvpn-bin
+            ;;
+        "install_yay" | "y")
+            # TODO Modify to cd back to original directory
+            # TODO Modify to put repo in good location
+            sudo git clone https://aur.archlinux.org/yay-git.git
+            sudo chown -R andrew:andrew ./yay-git
+            cd yay-git
+            makepkg -si
+            ;;
+		"u" | "upload_encrypted_cloud_files")
+			;;
         "d" | "download_encrypted_cloud_files")
 			download_encrypted_cloud_files 
 			;;
