@@ -31,6 +31,10 @@ cli () {
 		"--help" | "-h")
 			main_help
 			;;
+		"start_and_enable_services" | "s")
+			sudo systemctl enable clamav-daemon
+			sudo systemctl start clamav-daemoni
+			;;
         "install_aur_packages" | "i")
             sudo yay -S nordvpn-bin
             ;;
