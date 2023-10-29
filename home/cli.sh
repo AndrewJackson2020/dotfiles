@@ -26,27 +26,43 @@ download_encrypted_cloud_files () {
 }
 
 
+install_yay () {
+	# TODO Modify to cd back to original directory
+	# TODO Modify to put repo in good location
+	sudo git clone https://aur.archlinux.org/yay-git.git
+	sudo chown -R andrew:andrew ./yay-git
+	cd yay-git
+	makepkg -si
+}
+
+
+start_and_enable_services () {
+	sudo systemctl enable clamav-daemon
+	sudo systemctl start clamav-daemoni
+}
+
+
+upload_encrypted_cloud_files () {
+	# TODO Implement function
+}
+
+
 cli () {
 	case $1 in
 		"--help" | "-h")
 			main_help
 			;;
 		"start_and_enable_services" | "s")
-			sudo systemctl enable clamav-daemon
-			sudo systemctl start clamav-daemoni
+			start_and_enable_services 
 			;;
         "install_aur_packages" | "i")
             sudo yay -S nordvpn-bin
             ;;
         "install_yay" | "y")
-            # TODO Modify to cd back to original directory
-            # TODO Modify to put repo in good location
-            sudo git clone https://aur.archlinux.org/yay-git.git
-            sudo chown -R andrew:andrew ./yay-git
-            cd yay-git
-            makepkg -si
-            ;;
+			install_yay 
+			;;
 		"u" | "upload_encrypted_cloud_files")
+			upload_encrypted_cloud_files 
 			;;
         "d" | "download_encrypted_cloud_files")
 			download_encrypted_cloud_files 
