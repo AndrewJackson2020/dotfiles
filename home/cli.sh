@@ -14,7 +14,11 @@ EOF
 
 help_download_encrypted_cloud_files (){
 	cat << EOF
-download_encrypted_cloud_files 
+Function to encrypt and upload files to external cloud Bucket storage
+
+flags:
+	--document_type | d
+		Document type to download, corresponds to subfolder
 EOF
 }
 
@@ -30,6 +34,11 @@ download_encrypted_cloud_files () {
 			;;
 		"--document_type" | "-d")
 			document_type=$2	
+			;;
+		*)
+			echo "'$1' not recognized"
+			help_download_encrypted_cloud_files 		
+			exit
 			;;
 	esac
 
@@ -50,7 +59,11 @@ download_encrypted_cloud_files () {
 
 help_upload_encrypted_cloud_files () {
 	cat << EOF
-upload_encrypted_cloud_files 
+Function to encrypt and upload files to external cloud Bucket storage
+
+flags:
+	--document_type | d
+		Document type to upload, corresponds to subfolder
 EOF
 }
 
@@ -66,6 +79,11 @@ upload_encrypted_cloud_files () {
 			;;
 		"--document_type" | "-d")
 			document_type=$2	
+			;;
+		*)
+			echo "'$1' not recognized"
+			help_download_encrypted_cloud_files 		
+			exit
 			;;
 	esac
 
