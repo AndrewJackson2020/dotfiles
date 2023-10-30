@@ -50,9 +50,9 @@ download_encrypted_cloud_files () {
 
 	gsutil cp \
 		"gs://documents_asdfoaucds/${document_type}.7z" \
-		"~/cloud_documents/staging/"
+		~/cloud_documents/staging/
 	cd ~/cloud_documents
-	7z x  -ounzipped/ "~/cloud_documents/staging/${document_type}.7z"
+	7z x  -ounzipped/ "${HOME}/cloud_documents/staging/${document_type}.7z"
 	cd -
 }
 
