@@ -23,7 +23,6 @@ EOF
 }
 
 
-# TODO Separate video, audio, and documents into separate zip files
 download_encrypted_cloud_files () {
 
 	set -e
@@ -42,17 +41,17 @@ download_encrypted_cloud_files () {
 			;;
 	esac
 
-	mkdir -p ~/cloud_documents/staging/
-	mkdir -p ~/cloud_documents/unzipped/
+	mkdir -p "~/cloud_documents/staging/"
+	mkdir -p "~/cloud_documents/unzipped/${document_type}"
 
-	rm -f ~/cloud_documents/staging/*
-	rm -f ~/cloud_documents/unzipped/*
+	rm -f "~/cloud_documents/staging/${document_type}.zip"
+	rm -f "~/cloud_documents/unzipped/${document_type}/*"
 
 	gsutil cp \
 		"gs://documents_asdfoaucds/${document_type}.7z" \
-		~/cloud_documents/staging/
-	cd ~/cloud_documents
-	7z x  -ounzipped/ "${HOME}/cloud_documents/staging/${document_type}.7z"
+		"~/cloud_documents/staging/"
+	cd "~/cloud_documents"
+	7z x  "-ounzipped/${document_type}" "${HOME}/cloud_documents/staging/${document_type}.7z"
 	cd -
 }
 
@@ -68,7 +67,6 @@ EOF
 }
 
 
-# TODO Separate video, audio, and documents into separate zip files
 upload_encrypted_cloud_files () {
 
 	set -e
@@ -92,11 +90,11 @@ upload_encrypted_cloud_files () {
 	rm -f ~/cloud_documents/staging/*
 
 	cd ~/cloud_documents
-	7z a "-p${password}" -mhe=on "staging/${document_type}.7z" unzipped/*
+	7z a "-p${password}" -mhe=on "staging/${document_type}.7z" "unzipped/${document_type}/*"
 	cd -
 
 	gsutil cp \
-		"~/cloud_documents/staging/${document_type}.7z" \
+		"${HOME}/cloud_documents/staging/${document_type}.7z" \
 		"gs://documents_asdfoaucds/${document_type}.7z"
 }
 
