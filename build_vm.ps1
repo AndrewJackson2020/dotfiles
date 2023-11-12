@@ -65,3 +65,12 @@ function destroy_vm {
     VBoxManage shutdown archvm
     VBoxManage unregistervm archvm --delete
 }
+
+function ssh_into_vm {
+    # rm --force /home/andrew/.ssh/known_hosts
+    scp -r `
+        -P 2222 `
+        ./archinstall/* `
+        root@127.0.0.1:/root/
+    ssh -p 2222 root@127.0.0.1
+}

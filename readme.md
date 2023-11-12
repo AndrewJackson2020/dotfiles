@@ -5,6 +5,14 @@
 This repo stores all of my linux config. This includes dotfiles which are deployed via stow and a 
 custom ISO installer image created via archiso.
 
+## Useful commands
+
+```bash
+archinstall \
+    --config "./user_configuration.json" \
+    --creds "./user_credentials.json"
+```
+
 ## Future Development
 - TODO Write better help documentation for CLI
 - TODO Separate stow stuff from other stuff
