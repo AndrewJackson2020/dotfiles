@@ -1,4 +1,8 @@
 
+
+$env:Path += ';C:\Program Files\Oracle\VirtualBox'
+
+
 function setup_vm {
 
     VBoxManage createvm `
