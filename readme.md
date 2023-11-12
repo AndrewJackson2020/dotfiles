@@ -13,6 +13,11 @@ archinstall \
     --creds "./user_credentials.json"
 ```
 
+## References
+- Used this link to get i3 to work with VirtualBox/xRDP
+    - https://gist.github.com/valorad/7fd3e4a7fb4481f1eb77ded42a72537d
+
+
 ## Future Development
 - TODO Write better help documentation for CLI
 - TODO Separate stow stuff from other stuff

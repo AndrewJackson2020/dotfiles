@@ -43,18 +43,25 @@ function setup_vm {
         --nic1 nat
     VBoxManage modifyvm archvm `
         --natpf1 "guestssh,tcp,,2222,,22"
+    VBoxManage modifyvm archvm `
+        --natpf1 "guestrdp,tcp,,4000,,3389"
     VBoxManage startvm archvm `
         --type headless
 
 }
 
 function detach_usb_from_vm {
-    VBoxManage shutdown archvm
-    VBoxManage modifyvm archvm `
-        --boot1 disk `
-        --boot2 dvd `
-        --boot3 none `
-        --boot4 none
+
+    # TODO Command does not work is Powershell
+    # VBoxManage shutdown archvm
+
+    # TODO Below command does not work in powershell
+    # VBoxManage modifyvm archvm `
+    #     --boot1 disk `
+    #     --boot2 dvd `
+    #     --boot3 none `
+    #     --boot4 none
+
     VBoxManage startvm archvm `
         --type headless
 }
@@ -67,7 +74,7 @@ function destroy_vm {
 }
 
 function ssh_into_vm {
-    # rm --force /home/andrew/.ssh/known_hosts
+    Remove-Item --force ./.ssh/known_hosts
     scp -r `
         -P 2222 `
         ./archinstall/* `
