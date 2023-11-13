@@ -67,4 +67,7 @@ function destroy_vm {
     Remove-VM `
         -Name arch_linux_vm `
         -Force
+
+    Remove-Item .\VMs\arch_linux_hd.vhdx
+
 }
