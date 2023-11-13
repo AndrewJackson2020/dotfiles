@@ -19,16 +19,15 @@ archinstall \
 
 ## Design Decisions
 - TODO Depricate VirtualBox stuff?
+- TODO Sunset bash scripts in installer in favor of archinstall?
 
 ## Future Development
 - TODO Write better help documentation for CLI
-- TODO Sunset bash scripts in installer in favor of archinstall
 - TODO Incorporate build process to semi automatically deploy .iso publically
 - TODO Incorporate archinstall config files into .iso
-- Hyper V
-    - TODO Build powershell script to bootstrap Hyper V VM
 
 ## Completed Development
 - TODO track /etc/xrdp/sesman.ini in config files
 - Hyper V
     - TODO Get VM GUI working in Hyper V
+    - TODO Build powershell script to bootstrap Hyper V VM
