@@ -44,6 +44,13 @@ function setup_vm {
 
 function change_boot_priority_to_disk {
 
+    $hdd = Get-VMHardDiskDrive `
+        -VMName arch_linux_vm
+
+    Set-VMFirmware `
+        -VMName arch_linux_vm `
+        -FirstBootDevice $hdd
+
 }
 
 function ssh_to_vm {
