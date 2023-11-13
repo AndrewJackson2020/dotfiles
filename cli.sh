@@ -2,7 +2,7 @@
 
 set -e
 
-source ./cli_source.sh
+source ./cli/bash/cli_source.sh
 
 
 vm_help () {
