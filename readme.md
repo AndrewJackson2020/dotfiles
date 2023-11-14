@@ -25,9 +25,10 @@ archinstall \
 - TODO Write better help documentation for CLI
 - TODO Incorporate build process to semi automatically deploy .iso publically
 - TODO Incorporate archinstall config files into .iso
+- TODO Need way to ensure home is only executed by user, system is only executed by root for config file terraform
 
 ## Completed Development
-- TODO track /etc/xrdp/sesman.ini in config files
+- track /etc/xrdp/sesman.ini in config files
 - Hyper V
     - TODO Get VM GUI working in Hyper V
     - TODO Build powershell script to bootstrap Hyper V VM
