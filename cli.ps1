@@ -14,16 +14,17 @@ COMMANDS
 param(
   [Parameter(Position=0, Mandatory=$True)]
   [ValidateSet("hyperv", "virtualbox")]
-  [string]$Command
+  [string]$Command,
+
+  [Parameter(Position=1, Mandatory=$False)]
+  [string]$SubCommand
 )
 
 switch ($Command) {
     "hyperv"  {
-        . ./cli/powershell/build_vm_hyper_v.ps1
-        Write-Host hyperv
+        & ./cli/powershell/build_vm_hyper_v.ps1 $SubCommand
     }
     "virtualbox"  {
-        . ./cli/powershell/build_vm_virtualbox.ps1
-        Write-Host virtuaalbox
+        & ./cli/powershell/build_vm_virtualbox.ps1 $SubCommand
     }
 }

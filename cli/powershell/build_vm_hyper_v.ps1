@@ -1,26 +1,47 @@
+<#
+.SYNOPSIS
+CLI to assist in building Windows based VM's
 
+.DESCRIPTION
+USAGE
+    ./build_vm_hyper_v.ps1 <command>
+
+COMMANDS
+    setup_vm                        Command to create initial VM with boot drive mounted
+    change_boot_priority_to_disk    Command to remove boot drive from VM
+    destroy_vm                      Command to destroy VM
+    ssh_to_vm                       Command to SSH into VM
+
+#>
+param(
+  [Parameter(Position=0, Mandatory=$True)]
+  [ValidateSet(
+    "setup_vm", "change_boot_priority_to_disk", "destroy_vm", "ssh_to_vm")]
+  [string]$Command
+)
+#Requires -RunAsAdministrator
+
+$hard_drive_location = "C:\ProgramData\Microsoft\Windows\Virtual Hard Disks\arch_linux_hd.vhdx"
 
 function setup_vm {
 
-    New-VMSwitch `
-        -Name arch_linux_switch `
-        -SwitchType Internal 
+    $ErrorActionPreference = "Stop"
 
     New-VM `
         -Name arch_linux_vm `
         -MemoryStartupBytes 8GB `
-        -Switch arch_linux_switch `
         -Generation 2 `
-        -Path .\VMData
+        -Switch "Default Switch" `
+        -Path "C:\ProgramData\Microsoft\Windows\Hyper-V\Virtual Machines"
 
     New-VHD `
         -SizeBytes 50GB `
-        -Path .\VMs\arch_linux_hd.vhdx
+        -Path $hard_drive_location
 
     Add-VMHardDiskDrive `
         -VMName arch_linux_vm `
         -ControllerType SCSI `
-        -Path .\VMs\arch_linux_hd.vhdx
+        -Path $hard_drive_location
 
     Add-VMDvdDrive `
         -VMName arch_linux_vm `
@@ -40,6 +61,9 @@ function setup_vm {
     Set-VMProcessor `
         arch_linux_vm `
         -Count 8
+
+    Start-VM `
+        -Name arch_linux_vm
 }
 
 function change_boot_priority_to_disk {
@@ -50,24 +74,42 @@ function change_boot_priority_to_disk {
     Set-VMFirmware `
         -VMName arch_linux_vm `
         -FirstBootDevice $hdd
-
+    Stop-VM `
+        -VMName arch_linux_vm
+    Start-VM `
+        -VMName arch_linux_vm
 }
 
 function ssh_to_vm {
-
+    $ip_address = (get-vm -Name arch_linux_vm).NetworkAdapters.IPAddresses[0]
+    # scp -r ./andrew_arch_iso/airootfs/root/installers/archinstall_installer "root@${ip_address}:~/"  
+    ssh "root@${ip_address}"
 }
 
 
 function destroy_vm {
 
-    Remove-VMSwitch `
-        -Name arch_linux_switch `
-        -Force
+    Stop-VM `
+        -Name arch_linux_vm
 
     Remove-VM `
         -Name arch_linux_vm `
         -Force
 
-    Remove-Item .\VMs\arch_linux_hd.vhdx
+    Remove-Item "C:\ProgramData\Microsoft\Windows\Virtual Hard Disks\arch_linux_hd.vhdx"
+}
 
+switch ($Command) {
+    "setup_vm" {
+        setup_vm
+    } 
+    "change_boot_priority_to_disk" {
+        change_boot_priority_to_disk
+    }
+    "ssh_to_vm" {
+        ssh_to_vm
+    }
+    "destroy_vm" {
+        destroy_vm
+    }
 }
