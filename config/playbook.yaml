@@ -1,0 +1,37 @@
+- name: My first play
+  hosts: localhost
+  tasks:
+
+  - name: list files
+    find:
+      paths: "./home/"
+      file_type: file
+      hidden: true
+      recurse: true
+    register: home_files
+
+  - name: list files
+    find:
+      paths: "./system/"
+      file_type: file
+      hidden: true
+      recurse: true
+    register: system_files
+
+  - name: debug
+    ansible.builtin.debug:
+      msg: "/{{ item.path[7:] }}" 
+    loop: "{{ system_files.files }}"
+
+  - name: copy files
+    copy:
+      src: "{{ item.path }}"
+      dest: "/home/andrew/{{ item.path[5:] }}" 
+    loop: "{{ home_files.files }}"
+
+
+  - name: copy files
+    copy:
+      src: "{{ item.path }}"
+      dest: "/{{ item.path[7:] }}"
+    loop: "{{ system_files.files }}"
