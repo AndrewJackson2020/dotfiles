@@ -34,6 +34,8 @@
         - bc
         - tree
         - tmux
+        - net-tools
+        - nginx
       state: latest
 
   - name: list directories
