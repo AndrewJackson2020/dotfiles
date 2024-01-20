@@ -29,9 +29,11 @@
         - terminator
         - fortune-mod
         - cowsay
+        - zsh
         - stow
         - bc
         - tree
+        - tmux
       state: latest
 
   - name: list directories
@@ -62,4 +64,14 @@
       dest: "/home/andrew/{{ item.path[5:] }}" 
     loop: "{{ home_files.files }}"
 
-
+  - name: Create users
+    ansible.builtin.user:
+      name: "{{ item }}"
+      groups: "wheel"
+      password: "{{ item | password_hash('sha512') }}"
+    loop:
+      - andrew
+      - silas
+      - fei
+      - bun
+                                
