@@ -60,6 +60,11 @@
       recurse: true
     register: home_files
 
+  - name: Put SELinux in permissive mode, logging actions that would be blocked.
+    ansible.posix.selinux:
+      policy: targeted
+      state: permissive
+
   - name: copy files
     copy:
       src: "{{ item.path }}"
