@@ -1,0 +1,80 @@
+- name: Install packages
+  ansible.builtin.dnf:
+    name:
+      - vim
+      - cowsay
+      - dmenu
+      - emacs
+      - epel-release
+      - gh
+      - git 
+      - i3status
+      - neovim
+      - podman
+      - docker
+      - xrdp
+      - nano
+      - rust
+      - nodejs
+      - ruby
+      - gimp
+      - firefox
+      - thunar
+      - qbittorrent
+      - ranger
+      - terminator
+      - fortune-mod
+      - cowsay
+      - zsh
+      - stow
+      - bc
+      - tree
+      - tmux
+      - net-tools
+      - nginx
+    state: latest
+
+- name: list directories
+  find:
+    paths: "./home/"
+    file_type: directory
+    hidden: true
+    recurse: true
+  register: home_directories
+
+- name: create directories
+  ansible.builtin.file:
+    path: "/home/andrew/{{ item.path[5:] }}" 
+    state: directory
+  loop: "{{ home_directories.files }}"
+
+- name: list files
+  find:
+    paths: "./home/"
+    file_type: file
+    hidden: true
+    recurse: true
+  register: home_files
+
+- name: Put SELinux in permissive mode, logging actions that would be blocked.
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
+
+- name: copy files
+  copy:
+    src: "{{ item.path }}"
+    dest: "/home/andrew/{{ item.path[5:] }}" 
+  loop: "{{ home_files.files }}"
+
+- name: Create users
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "wheel"
+    password: "{{ item | password_hash('sha512') }}"
+  loop:
+    - andrew
+    - silas
+    - fei
+    - bun
+                              
