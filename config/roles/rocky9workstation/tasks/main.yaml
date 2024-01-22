@@ -21,10 +21,12 @@
       - firefox
       - thunar
       - qbittorrent
+      - fzf
       - ranger
       - terminator
       - fortune-mod
       - cowsay
+      - ranger
       - zsh
       - stow
       - bc
@@ -32,6 +34,15 @@
       - tmux
       - net-tools
       - nginx
+      - qemu-kvm
+      - libvirt
+      - virt-manager
+      - virt-install
+      - bridge-utils
+      - virt-top
+      - libguestfs-tools
+      - bridge-utils
+      - virt-viewer
     state: latest
 
 - name: list directories
@@ -77,4 +88,16 @@
     - silas
     - fei
     - bun
-                              
+                             
+- name: Enable virtualization
+  ansible.builtin.systemd_service:
+    name: libvirtd
+    state: started
+    enabled: true 
+
+- name: Define vm from xml and set autostart
+  community.libvirt.virt:
+    command: define
+    xml: "{{ lookup('file', 'vm_template.xml') }}"
+    autostart: true
+
