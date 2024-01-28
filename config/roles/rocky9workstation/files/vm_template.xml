@@ -1,7 +1,6 @@
 
 <domain type='qemu'>
-  <name>QEmu-fedora-i686</name>
-  <uuid>c7a5fdbd-cdaf-9455-926a-d65c16db1809</uuid>
+  <name>temple_os</name>
   <memory>219200</memory>
   <currentMemory>219200</currentMemory>
   <vcpu>2</vcpu>
@@ -12,13 +11,9 @@
   <devices>
     <emulator>/usr/libexec/qemu-kvm</emulator>
     <disk type='file' device='cdrom'>
-      <source file='/home/user/boot.iso'/>
+      <source file='/root/iso/TempleOS.ISO'/>
       <target dev='hdc'/>
       <readonly/>
-    </disk>
-    <disk type='file' device='disk'>
-      <source file='/home/user/fedora.img'/>
-      <target dev='hda'/>
     </disk>
     <interface type='network'>
       <source network='default'/>

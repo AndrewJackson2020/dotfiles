@@ -3,6 +3,7 @@
 # TODO Add ohmytmux install
 # TODO Add SauceCodePro install
 # TODO Add XRDP config to launch i3
+# TODO Migrate VM's to config
 
 - name: Install packages
   ansible.builtin.dnf:
