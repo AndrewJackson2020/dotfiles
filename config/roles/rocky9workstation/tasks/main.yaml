@@ -1,3 +1,9 @@
+# TODO Add doom emacs install
+# TODO Add ohmyzsh install
+# TODO Add ohmytmux install
+# TODO Add SauceCodePro install
+# TODO Add XRDP config to launch i3
+
 - name: Install packages
   ansible.builtin.dnf:
     name:
@@ -47,7 +53,7 @@
 
 - name: list directories
   find:
-    paths: "./home/"
+    paths: "{{ role_path }}file/home/"
     file_type: directory
     hidden: true
     recurse: true
@@ -55,13 +61,13 @@
 
 - name: create directories
   ansible.builtin.file:
-    path: "/home/andrew/{{ item.path[5:] }}" 
+    path: "/home/andrew{{ item.path[5:] }}" 
     state: directory
   loop: "{{ home_directories.files }}"
 
 - name: list files
   find:
-    paths: "./home/"
+    paths: "{{ role_path }}/files/home/"
     file_type: file
     hidden: true
     recurse: true
@@ -75,7 +81,7 @@
 - name: copy files
   copy:
     src: "{{ item.path }}"
-    dest: "/home/andrew/{{ item.path[5:] }}" 
+    dest: "/home/andrew{{ item.path[5:] }}" 
   loop: "{{ home_files.files }}"
 
 - name: Create users
