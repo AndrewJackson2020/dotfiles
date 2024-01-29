@@ -3,6 +3,7 @@
 # TODO Add ohmytmux install
 # TODO Add SauceCodePro install
 # TODO Add XRDP config to launch i3
+# TODO Download iso's for VM's
 # TODO Migrate VM's to config
 
 - name: Install packages
@@ -114,6 +115,14 @@
 - name: Define vm from xml and set autostart
   community.libvirt.virt:
     command: define
-    xml: "{{ lookup('file', 'temple_os.xml') }}"
-    autostart: false
+    xml: "{{ lookup('file', 'virsh_definitions/temple_os.xml') }}"
+    state: running
+    name: temple_os
 
+- name: Define vm from xml and set autostart
+  community.libvirt.virt:
+    command: define
+    xml: "{{ lookup('file', 'virsh_definitions/nixos.xml') }}"
+    autostart: true
+    name: nix_os
+    state: running

@@ -1,0 +1,23 @@
+
+<domain type='qemu'>
+  <name>nix_os</name>
+  <memory>219200</memory>
+  <currentMemory>219200</currentMemory>
+  <vcpu>2</vcpu>
+  <os>
+    <type arch='i686' machine='pc'>hvm</type>
+    <boot dev='cdrom'/>
+  </os>
+  <devices>
+    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <disk type='file' device='cdrom'>
+      <source file='/root/iso/debian-12.4.0-amd64-netinst.iso'/>
+      <target dev='hdc'/>
+      <readonly/>
+    </disk>
+    <interface type='network'>
+      <source network='default'/>
+    </interface>
+    <graphics type='vnc' port='-1'/>
+  </devices>
+</domain>
