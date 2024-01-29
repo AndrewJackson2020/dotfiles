@@ -1,28 +1,29 @@
-if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
 fi
 
-#!/bin/bash
-#
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
 
-sudo systemctl start iwd.service
-sudo systemctl start docker.service
-PATH=$PATH:~/.config/emacs/bin
+# User specific aliases and functions
+ 
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias ls='eza'
+alias vim='nvim'
+alias vi='nvim'
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/andrew/google-cloud-sdk/path.bash.inc' ]; then . '/home/andrew/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/andrew/google-cloud-sdk/completion.bash.inc' ]; then . '/home/andrew/google-cloud-sdk/completion.bash.inc'; fi
-
-
-cli() {
-	~/cli.sh "$@"
-}
-
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux
+fi

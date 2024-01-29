@@ -52,38 +52,47 @@
       - virt-viewer
     state: latest
 
+- name: Set ansible home path file path
+  set_fact:
+    ansible_home_path: "{{ role_path }}/files/home/"
+
 - name: list directories
   find:
-    paths: "{{ role_path }}file/home/"
+    paths: "{{ ansible_home_path }}"
     file_type: directory
     hidden: true
     recurse: true
   register: home_directories
 
-- name: create directories
-  ansible.builtin.file:
-    path: "/home/andrew{{ item.path[5:] }}" 
-    state: directory
-  loop: "{{ home_directories.files }}"
-
 - name: list files
   find:
-    paths: "{{ role_path }}/files/home/"
+    paths: "{{ ansible_home_path }}"
     file_type: file
     hidden: true
     recurse: true
   register: home_files
 
-- name: Put SELinux in permissive mode, logging actions that would be blocked.
-  ansible.posix.selinux:
-    policy: targeted
-    state: permissive
+- name: Get Length of ansible home path files
+  set_fact:
+    ansible_path_len: "{{ ansible_home_path | length }}"
+    target_home_directory: "/root"
+
+- name: create directories
+  ansible.builtin.file:
+    path: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
+    state: directory
+  loop: "{{ home_directories.files }}"
 
 - name: copy files
   copy:
     src: "{{ item.path }}"
-    dest: "/home/andrew{{ item.path[5:] }}" 
+    dest: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
   loop: "{{ home_files.files }}"
+
+- name: Put SELinux in permissive mode, logging actions that would be blocked.
+  ansible.posix.selinux:
+    policy: targeted
+    state: permissive
 
 - name: Create users
   ansible.builtin.user:
@@ -105,6 +114,6 @@
 - name: Define vm from xml and set autostart
   community.libvirt.virt:
     command: define
-    xml: "{{ lookup('file', 'vm_template.xml') }}"
-    autostart: true
+    xml: "{{ lookup('file', 'temple_os.xml') }}"
+    autostart: false
 

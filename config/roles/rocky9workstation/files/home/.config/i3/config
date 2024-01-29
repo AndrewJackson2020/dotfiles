@@ -21,7 +21,7 @@ font pango:monospace 8
 
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id dex-autostart --autostart --environment i3
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -44,12 +44,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# move tiling windows via drag & drop by left-clicking into the title bar,
-# or left-clicking anywhere into the window while holding the floating modifier.
-tiling_drag modifier titlebar
-
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -183,15 +179,8 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Restore background, scale to resulution
-exec nitrogen --restore --set-scaled
-
-# Start compositor, allows transparant terminals
-exec --no-startup-id picom
-
-# Increase size of scren
-exec xrandr --output eDP-1 --scale 0.8x0.8
-
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
         status_command i3status
 }
