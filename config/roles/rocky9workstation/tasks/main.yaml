@@ -4,7 +4,6 @@
 # TODO Add SauceCodePro install
 # TODO Add XRDP config to launch i3
 # TODO Download iso's for VM's
-# TODO Migrate VM's to config
 
 - name: Install packages
   ansible.builtin.dnf:
