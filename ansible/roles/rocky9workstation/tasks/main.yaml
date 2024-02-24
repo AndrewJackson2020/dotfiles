@@ -5,123 +5,146 @@
 # TODO Add XRDP config to launch i3
 # TODO Download iso's for VM's
 
-- name: Install packages
+- name: "Install packages"
+  become: true
   ansible.builtin.dnf:
     name:
-      - vim
-      - cowsay
-      - dmenu
-      - emacs
-      - epel-release
-      - gh
-      - git 
-      - i3status
-      - neovim
-      - podman
-      - docker
-      - xrdp
-      - nano
-      - rust
-      - nodejs
-      - ruby
-      - gimp
-      - firefox
-      - thunar
-      - qbittorrent
-      - fzf
-      - ranger
-      - terminator
-      - fortune-mod
-      - cowsay
-      - ranger
-      - zsh
-      - stow
-      - bc
-      - tree
-      - tmux
-      - net-tools
-      - nginx
-      - qemu-kvm
-      - libvirt
-      - virt-manager
-      - virt-install
-      - bridge-utils
-      - virt-top
-      - libguestfs-tools
-      - bridge-utils
-      - virt-viewer
-    state: latest
+      - "vim"
+      - "cowsay"
+      - "dmenu"
+      - "emacs"
+      - "epel-release"
+      - "gh"
+      - "git "
+      - "i3status"
+      - "neovim"
+      - "podman"
+      - "docker"
+      - "xrdp"
+      - "nano"
+      - "rust"
+      - "nodejs"
+      - "ruby"
+      - "gimp"
+      - "firefox"
+      - "thunar"
+      - "qbittorrent"
+      - "fzf"
+      - "ranger"
+      - "terminator"
+      - "fortune-mod"
+      - "cowsay"
+      - "ranger"
+      - "zsh"
+      - "stow"
+      - "bc"
+      - "tree"
+      - "tmux"
+      - "net-tools"
+      - "nginx"
+      - "qemu-kvm"
+      - "libvirt"
+      - "virt-manager"
+      - "virt-install"
+      - "bridge-utils"
+      - "virt-top"
+      - "libguestfs-tools"
+      - "bridge-utils"
+      - "virt-viewer"
+    state: "latest"
 
-- name: Set ansible home path file path
-  set_fact:
-    ansible_home_path: "{{ role_path }}/files/home/"
 
-- name: list directories
-  find:
-    paths: "{{ ansible_home_path }}"
-    file_type: directory
-    hidden: true
-    recurse: true
-  register: home_directories
-
-- name: list files
-  find:
-    paths: "{{ ansible_home_path }}"
-    file_type: file
-    hidden: true
-    recurse: true
-  register: home_files
-
-- name: Get Length of ansible home path files
-  set_fact:
-    ansible_path_len: "{{ ansible_home_path | length }}"
-    target_home_directory: "/root"
-
-- name: create directories
-  ansible.builtin.file:
-    path: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
-    state: directory
-  loop: "{{ home_directories.files }}"
-
-- name: copy files
-  copy:
-    src: "{{ item.path }}"
-    dest: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
-  loop: "{{ home_files.files }}"
-
-- name: Put SELinux in permissive mode, logging actions that would be blocked.
+- name: "Put SELinux in permissive mode, logging actions that would be blocked."
+  become: true
   ansible.posix.selinux:
-    policy: targeted
-    state: permissive
+    policy: "targeted"
+    state: "permissive"
 
-- name: Create users
+- name: "Create users"
+  become: true
   ansible.builtin.user:
     name: "{{ item }}"
     groups: "wheel"
     password: "{{ item | password_hash('sha512') }}"
-  loop:
-    - andrew
-    - silas
-    - fei
-    - bun
-                             
-- name: Enable virtualization
+  loop: 
+      - "andrew"
+      - "silas"
+      - "fei"
+      - "bun"
+
+
+- name: "Set up home environment"
+  block:
+
+  - name: "Set ansible home path file path"
+    become: true
+    become_user: "andrew"
+    set_fact:
+      ansible_home_path: "{{ role_path }}/files/home/"
+
+  - name: "list directories"
+    become: true
+    become_user: andrew
+    find:
+      paths: "{{ ansible_home_path }}"
+      file_type: "directory"
+      hidden: true
+      recurse: true
+    register: "home_directories"
+
+  - name: "list files"
+    become: true
+    become_user: "andrew"
+    find:
+      paths: "{{ ansible_home_path }}"
+      file_type: "file"
+      hidden: true
+      recurse: true
+    register: "home_files"
+
+  - name: "Get Length of ansible home path files"
+    become: true
+    become_user: "andrew"
+    set_fact:
+      ansible_path_len: "{{ ansible_home_path | length }}"
+      target_home_directory: "/home/andrew"
+
+  - name: "create directories"
+    become: true
+    become_user: andrew
+    ansible.builtin.file:
+      path: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
+      state: "directory"
+    loop: "{{ home_directories.files }}"
+
+  - name: "copy files"
+    become: true
+    become_user: andrew
+    copy:
+      src: "{{ item.path }}"
+      dest: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
+    loop: "{{ home_files.files }}"
+
+- name: "Enable virtualization"
+  become: true
   ansible.builtin.systemd_service:
-    name: libvirtd
-    state: started
+    name: "libvirtd"
+    state: "started"
     enabled: true 
 
-- name: Define vm from xml and set autostart
+- name: "Define vm from xml and set autostart"
+  become: true
   community.libvirt.virt:
-    command: define
+    command: "define"
     xml: "{{ lookup('file', 'virsh_definitions/temple_os.xml') }}"
-    state: running
-    name: temple_os
+    state: "running"
+    name: "temple_os"
 
-- name: Define vm from xml and set autostart
+- name: "Define vm from xml and set autostart"
+  become: true
   community.libvirt.virt:
-    command: define
+    command: "define"
     xml: "{{ lookup('file', 'virsh_definitions/nixos.xml') }}"
     autostart: true
-    name: nix_os
-    state: running
+    name: "nix_os"
+    state: "running"
