@@ -1,6 +1,4 @@
-# TODO Add doom emacs install
-# TODO Add ohmyzsh install
-# TODO Add ohmytmux install
+
 # TODO Add SauceCodePro install
 # TODO Add XRDP config to launch i3
 # TODO Download iso's for VM's
@@ -72,9 +70,44 @@
       - "fei"
       - "bun"
 
-
 - name: "Set up home environment"
   block:
+
+  - name: "Get Length of ansible home path files"
+    become: true
+    become_user: "andrew"
+    set_fact:
+      target_home_directory: "/home/andrew"
+
+  - name: "Clone tmux"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.git:
+      repo: 'https://github.com/gpakosz/.tmux.git'
+      dest: "{{ target_home_directory }}/repos/.tmux"
+
+  - name: "install ohmytmux"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.shell: |
+      mkdir -p "{{ target_home_directory }}/.config/tmux"
+      ln -s "{{ target_home_directory }}/repos/.tmux/.tmux.conf" "~/.config/tmux/tmux.conf"
+      cp "{{ target_home_directory }}/repos/.tmux/.tmux.conf.local" "~/.config/tmux/tmux.conf.local"
+
+  - name: "install ohmyzsh"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.shell: |
+      sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+  - name: "Install Doom EMACS"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.shell: |
+      git clone --depth 1 https://github.com/doomemacs/doomemacs {{ target_home_directory }}/.config/emacs
+      {{ target_home_directory }}/.config/emacs/bin/doom install
+    args:
+      creates: "{{ target_home_directory }}/.config/emacs/bin/doom"
 
   - name: "Set ansible home path file path"
     become: true
@@ -84,7 +117,7 @@
 
   - name: "list directories"
     become: true
-    become_user: andrew
+    become_user: "andrew"
     find:
       paths: "{{ ansible_home_path }}"
       file_type: "directory"
@@ -107,11 +140,10 @@
     become_user: "andrew"
     set_fact:
       ansible_path_len: "{{ ansible_home_path | length }}"
-      target_home_directory: "/home/andrew"
 
   - name: "create directories"
     become: true
-    become_user: andrew
+    become_user: "andrew"
     ansible.builtin.file:
       path: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
       state: "directory"
@@ -119,11 +151,12 @@
 
   - name: "copy files"
     become: true
-    become_user: andrew
+    become_user: "andrew"
     copy:
       src: "{{ item.path }}"
       dest: "{{ target_home_directory }}/{{ item.path[ansible_path_len | int:] }}" 
     loop: "{{ home_files.files }}"
+
 
 - name: "Enable virtualization"
   become: true
