@@ -2,5 +2,5 @@
 - Add NGINX setup to ansible
 
 ```bash
-ansible-playbook -i inventory.yaml playbook.yaml
+sudo ansible-playbook -i inventory.yaml -- playbook.yaml
 ```

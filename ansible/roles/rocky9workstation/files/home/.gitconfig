@@ -2,6 +2,6 @@
 	email = andrewjackson947@gmail.com
 	name = CommanderKeynes
 [core]
-	editor = vim
+	editor = nvim
 [credential]
 	helper = store

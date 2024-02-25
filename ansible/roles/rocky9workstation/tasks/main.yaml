@@ -93,12 +93,25 @@
       mkdir -p "{{ target_home_directory }}/.config/tmux"
       ln -s "{{ target_home_directory }}/repos/.tmux/.tmux.conf" "{{ target_home_directory }}/.config/tmux/tmux.conf"
       cp "{{ target_home_directory }}/repos/.tmux/.tmux.conf.local" "{{ target_home_directory }}/.config/tmux/tmux.conf.local"
+    args:
+      creates: "{{ target_home_directory }}/.config/tmux/tmux.conf.local"
 
   - name: "install ohmyzsh"
     become: true
     become_user: "andrew"
     ansible.builtin.shell: |
       sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    args:
+      creates: "{{ target_home_directory }}/.oh-my-zsh/"
+
+  - name: "Install neovim packer plugin manager"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.shell: |
+      git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+       {{ target_home_directory }}/.local/share/nvim/site/pack/packer/start/packer.nvim
+    args:
+      creates: "{{ target_home_directory }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 
   - name: "Install Doom EMACS"
     become: true
