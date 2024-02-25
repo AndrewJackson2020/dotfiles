@@ -91,8 +91,8 @@
     become_user: "andrew"
     ansible.builtin.shell: |
       mkdir -p "{{ target_home_directory }}/.config/tmux"
-      ln -s "{{ target_home_directory }}/repos/.tmux/.tmux.conf" "~/.config/tmux/tmux.conf"
-      cp "{{ target_home_directory }}/repos/.tmux/.tmux.conf.local" "~/.config/tmux/tmux.conf.local"
+      ln -s "{{ target_home_directory }}/repos/.tmux/.tmux.conf" "{{ target_home_directory }}/.config/tmux/tmux.conf"
+      cp "{{ target_home_directory }}/repos/.tmux/.tmux.conf.local" "{{ target_home_directory }}/.config/tmux/tmux.conf.local"
 
   - name: "install ohmyzsh"
     become: true
