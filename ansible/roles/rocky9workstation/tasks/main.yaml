@@ -70,6 +70,21 @@
       - "fei"
       - "bun"
 
+# TODO Download and install compton
+
+- name: "Download Bitwarden"
+  become: true
+  ansible.builtin.get_url:
+    url: "https://github.com/bitwarden/clients/releases/download/desktop-v2024.2.0/Bitwarden-2024.2.0-x86_64.rpm"
+    dest: "/root/Downloads"
+    mode: '0440'
+
+- name: "INstall bitwarden"
+  ansible.builtin.dnf:
+    name: "/root/Downloads/Bitwarden-2024.2.0-x86_64.rpm"
+    state: "present"
+    disable_gpg_check: true
+
 - name: "Set up home environment"
   block:
 
