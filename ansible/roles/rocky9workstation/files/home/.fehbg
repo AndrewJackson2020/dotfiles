@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-center '/root/wallpapersden.com_mechwarrior-5_2560x1440.jpg'
+feh --no-fehbg --bg-center ~/.background
