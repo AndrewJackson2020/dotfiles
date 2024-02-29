@@ -3,6 +3,7 @@
 # TODO Add XRDP config to launch i3
 # TODO Download iso's for VM's
 
+
 - name: "Install packages"
   become: true
   ansible.builtin.dnf:
@@ -118,6 +119,14 @@
       sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     args:
       creates: "{{ target_home_directory }}/.oh-my-zsh/"
+
+  - name: "Extract foo.tgz into /var/lib/foo"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.unarchive:
+      src: "https://releases.hashicorp.com/terraform/1.7.4/terraform_1.7.4_linux_amd64.zip"
+      dest: "{{ target_home_directory }}/.local/bin"
+      remote_src: true
 
   - name: "Install neovim packer plugin manager"
     become: true
