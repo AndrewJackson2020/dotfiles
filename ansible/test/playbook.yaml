@@ -1,0 +1,11 @@
+---
+
+- name: "My first play"
+  hosts: "localhost"
+  tasks:
+
+    - name: "Basic deploy of a service"
+      community.general.terraform:
+        project_path: "{{ playbook_dir }}/files"
+        state: "present"
+
