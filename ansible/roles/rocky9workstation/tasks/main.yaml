@@ -120,7 +120,15 @@
     args:
       creates: "{{ target_home_directory }}/.oh-my-zsh/"
 
-  - name: "Extract foo.tgz into /var/lib/foo"
+  - name: "download and extract go"
+    become: true
+    become_user: "andrew"
+    ansible.builtin.unarchive:
+      src: "https://go.dev/dl/go1.22.0.linux-amd64.tar.gz"
+      dest: "{{ target_home_directory }}/.local/"
+      remote_src: true
+
+  - name: "download and extract terraform"
     become: true
     become_user: "andrew"
     ansible.builtin.unarchive:

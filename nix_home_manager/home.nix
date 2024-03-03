@@ -7,7 +7,8 @@
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
   home.file = {
-    ".xinitrc".source = ./home/.xinitrc; 
+    ".local/bin/terraform".source = ./home/.local/bin/terraform; 
+    ".local/go/".source = ./home/.local/go; 
     ".background".source = ./home/.background; 
     ".bashrc".source = ./home/.bashrc; 
     ".config/doom/config.el".source = ./home/.config/doom/config.el; 
@@ -21,6 +22,7 @@
     ".tmux.conf".source = ./home/.tmux.conf; 
     ".tmux.conf.local".source = ./home/.tmux.conf.local; 
     ".vimrc".source = ./home/.vimrc; 
+    ".xinitrc".source = ./home/.xinitrc; 
     ".zshrc".source = ./home/.zshrc; 
     "cli.sh".source = ./home/cli.sh; 
   };
