@@ -6,6 +6,10 @@
 
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  # TODO Should build below by getting recursive list of files in home directory
+  # TODO figure out how to loop through values and assign home file mappings dynamically
+  # TODO Need to figure out how to get nix to pull terraform/go archives dynamically instead of store in repo/file
+
   home.file = {
     ".local/bin/terraform".source = ./home/.local/bin/terraform; 
     ".local/go/".source = ./home/.local/go; 
