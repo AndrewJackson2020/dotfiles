@@ -21,7 +21,7 @@ in
   home.username = "andrew";
   home.homeDirectory = "/home/andrew";
 
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "23.05"; # Please read the comment before changing.
 
   home.file = lib.mkMerge ([
     {".local/bin/terraform".source = terraform_src;} 
